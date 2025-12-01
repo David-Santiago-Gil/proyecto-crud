@@ -14,14 +14,16 @@ const app = express();
 const PORT = 3000;
 
 // Middleware
-app.use(cors()); // Permitir peticiones desde el frontend
-app.use(express.json()); // Parsear JSON en el body
+app.use(cors());
+app.use(express.json());
+
+// ⭐ NUEVO: Servir archivos estáticos (HTML, CSS, JS, imágenes)
+app.use(express.static(__dirname));
 
 // Ruta al archivo de datos
 const DATA_FILE = path.join(__dirname, 'Data', 'Data.json');
 
 // ==================== FUNCIONES AUXILIARES ====================
-// Leer datos del archivo JSON
 const leerDatos = async () => {
     try {
         const data = await fs.readFile(DATA_FILE, 'utf-8');
@@ -32,7 +34,6 @@ const leerDatos = async () => {
     }
 };
 
-// Escribir datos al archivo JSON
 const escribirDatos = async (datos) => {
     try {
         await fs.writeFile(DATA_FILE, JSON.stringify(datos, null, 2));
@@ -77,10 +78,8 @@ app.post('/api/gifts', async (req, res) => {
     try {
         const datos = await leerDatos();
         
-        // Generar nuevo ID (último ID + 1)
         const nuevoId = datos.length > 0 ? datos[datos.length - 1].id + 1 : 1;
         
-        // Crear nuevo objeto Gift
         const nuevoGift = {
             id: nuevoId,
             gift: req.body.gift,
@@ -90,10 +89,8 @@ app.post('/api/gifts', async (req, res) => {
             imagen: req.body.imagen
         };
         
-        // Agregar al arreglo
         datos.push(nuevoGift);
         
-        // Guardar en el archivo
         const guardado = await escribirDatos(datos);
         
         if (guardado) {
@@ -117,7 +114,6 @@ app.put('/api/gifts/:id', async (req, res) => {
             return res.status(404).json({ error: 'Gift Card no encontrada' });
         }
         
-        // Actualizar el objeto manteniendo el ID
         datos[index] = {
             id: id,
             gift: req.body.gift,
@@ -127,7 +123,6 @@ app.put('/api/gifts/:id', async (req, res) => {
             imagen: req.body.imagen
         };
         
-        // Guardar en el archivo
         const guardado = await escribirDatos(datos);
         
         if (guardado) {
@@ -151,10 +146,8 @@ app.delete('/api/gifts/:id', async (req, res) => {
             return res.status(404).json({ error: 'Gift Card no encontrada' });
         }
         
-        // Eliminar el elemento
         const giftEliminado = datos.splice(index, 1)[0];
         
-        // Guardar en el archivo
         const guardado = await escribirDatos(datos);
         
         if (guardado) {
@@ -170,8 +163,14 @@ app.delete('/api/gifts/:id', async (req, res) => {
     }
 });
 
+// ⭐ NUEVO: Ruta principal - Servir index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 // ==================== INICIAR SERVIDOR ====================
 app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`🌐 Aplicación web en http://localhost:${PORT}`);
     console.log(`📊 API disponible en http://localhost:${PORT}/api/gifts`);
 });
