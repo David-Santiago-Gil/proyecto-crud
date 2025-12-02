@@ -1,4 +1,4 @@
-// server.js (CRUD con Node.js Vanilla y FS Síncrono)
+// server.js (CRUD con Node.js Vanilla y Logs Detallados)
 
 import http from 'http';
 import fs from 'fs'; 
@@ -12,12 +12,13 @@ const __dirname = path.dirname(__filename);
 const port = 3000;
 const host = 'localhost';
 
-// Ruta al archivo de datos
+// Ruta al archivo de datos (asumiendo que está en Data/Data.json)
 const DATA_FILE = path.join(__dirname, 'Data', 'Data.json');
 
 // ==================== FUNCIONES AUXILIARES DE DATOS (SÍNCRONAS) ====================
 const leerDatos = () => {
     try {
+        // Lee el archivo de forma síncrona (bloqueante)
         const data = fs.readFileSync(DATA_FILE, 'utf-8');
         return JSON.parse(data);
     } catch (error) {
@@ -27,6 +28,7 @@ const leerDatos = () => {
 
 const escribirDatos = (datos) => {
     try {
+        // Escribe el archivo de forma síncrona (bloqueante)
         fs.writeFileSync(DATA_FILE, JSON.stringify(datos, null, 2));
         return true;
     } catch (error) {
@@ -77,9 +79,10 @@ const server = http.createServer(async (req, res) => {
     }
 
     try {
-        // --- 1. RUTAS DE PRUEBA Y HOME (TESTER) ---
+        // Establecer Content-Type por defecto para las rutas API
+        res.setHeader('Content-Type', 'application/json');
 
-        // Ruta Texto Plano (del Tester)
+        // --- 1. RUTAS DE PRUEBA DEL TESTER ---
         if (url === '/ruta-vanilla' && method === 'GET') {
             res.setHeader('Content-Type', 'text/plain');
             res.statusCode = 200;
@@ -88,9 +91,7 @@ const server = http.createServer(async (req, res) => {
             return;
         }
 
-        // Ruta JSON de Prueba (del Tester)
         if (url === '/api/prueba' && method === 'GET') {
-            res.setHeader('Content-Type', 'application/json');
             res.statusCode = 200;
             console.log(`   ✅ Respuesta 200: Ruta de prueba JSON enviada.`);
             res.end(JSON.stringify({
@@ -102,8 +103,6 @@ const server = http.createServer(async (req, res) => {
 
 
         // --- 2. LÓGICA DE RUTEO CRUD: /api/gifts ---
-
-        res.setHeader('Content-Type', 'application/json');
         
         // RUTA BASE: /api/gifts
         if (url === '/api/gifts') {
@@ -119,7 +118,7 @@ const server = http.createServer(async (req, res) => {
 
             // 2.2. CREATE (POST) - Crear un nuevo registro
             if (method === 'POST') {
-                const body = await getBody(req);
+                const body = await getBody(req); // Lectura del body es asíncrona
                 const { gift, tipo, tiempo, precio, imagen } = body;
                 
                 // Validación de datos
@@ -130,20 +129,17 @@ const server = http.createServer(async (req, res) => {
                     return;
                 }
 
-                const datos = leerDatos();
+                const datos = leerDatos(); // Operación síncrona
                 const nuevoId = datos.length > 0 ? datos[datos.length - 1].id + 1 : 1;
                 
                 const nuevoGift = {
                     id: nuevoId,
-                    gift,
-                    tipo,
-                    tiempo,
-                    precio: parseFloat(precio),
-                    imagen
+                    gift, tipo, tiempo, 
+                    precio: parseFloat(precio), imagen
                 };
                 
                 datos.push(nuevoGift);
-                escribirDatos(datos);
+                escribirDatos(datos); // Operación síncrona
 
                 res.statusCode = 201; // 201 Created
                 console.log(`   ➕ Éxito 201: Nueva Gift Card creada: [ID: ${nuevoId}, Nombre: ${gift}]`);
@@ -157,7 +153,7 @@ const server = http.createServer(async (req, res) => {
 
         if (matchId) {
             const id = parseInt(matchId[1]);
-            const datos = leerDatos();
+            const datos = leerDatos(); // Operación síncrona
             const index = datos.findIndex(l => l.id === id);
             
             // Verificar si el recurso existe
@@ -178,7 +174,7 @@ const server = http.createServer(async (req, res) => {
 
             // 2.4. UPDATE (PUT) - Modificar un registro por ID
             if (method === 'PUT') {
-                const body = await getBody(req);
+                const body = await getBody(req); // Lectura del body es asíncrona
                 const { gift, tipo, tiempo, precio, imagen } = body;
 
                 // Validación de datos
@@ -190,7 +186,7 @@ const server = http.createServer(async (req, res) => {
                 }
                 
                 datos[index] = { id: id, gift, tipo, tiempo, precio: parseFloat(precio), imagen };
-                escribirDatos(datos); 
+                escribirDatos(datos); // Operación síncrona
 
                 res.statusCode = 200;
                 console.log(`   📝 Éxito 200: Gift Card actualizada: [ID: ${id}, Nuevo Nombre: ${gift}]`);
@@ -201,7 +197,7 @@ const server = http.createServer(async (req, res) => {
             // 2.5. DELETE (DELETE) - Eliminar un registro por ID
             if (method === 'DELETE') {
                 const giftEliminado = datos.splice(index, 1)[0];
-                escribirDatos(datos);
+                escribirDatos(datos); // Operación síncrona
                 
                 res.statusCode = 200;
                 console.log(`   🗑️ Éxito 200: Gift Card ELIMINADA: [ID: ${id}, Nombre: ${giftEliminado.gift}]`);
@@ -227,7 +223,7 @@ const server = http.createServer(async (req, res) => {
 server.listen(port, host, () => {
     console.log('----------------------------------------------------');
     console.log(`🚀 SERVIDOR ACTIVO: http://${host}:${port}`);
-    console.log('✅ Modo de archivos: SÍNCRONO (fs.readFileSync/fs.writeFileSync)');
+    console.log('✅ Logs de CRUD activados en esta terminal de VS Code.');
     console.log('❗ RECUERDA: Abre index.html directamente en el navegador.');
     console.log('----------------------------------------------------');
 });
