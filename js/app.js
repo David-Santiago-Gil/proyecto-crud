@@ -230,3 +230,40 @@ formModal.addEventListener("submit", giftUpdate);
 // ==================== INICIALIZACIÓN ====================
 // Cargar datos al iniciar la aplicación
 cargarDatos();
+
+// ==================== LÓGICA DEL TESTER DE RUTAS ====================
+window.consultarRuta = async (ruta) => {
+    const resultadoElemento = document.querySelector('#resultado-texto');
+    resultadoElemento.textContent = "Cargando respuesta...";
+    resultadoElemento.className = "mb-0 text-muted"; // Color gris mientras carga
+
+    try {
+        const response = await fetch(ruta);
+        
+        // Verificamos si es JSON o Texto
+        const contentType = response.headers.get("content-type");
+        
+        let datos;
+        if (contentType && contentType.includes("application/json")) {
+            datos = await response.json();
+            // Formateamos el JSON para que se vea bonito
+            resultadoElemento.textContent = JSON.stringify(datos, null, 4);
+        } else {
+            // Si es texto (como el error 404 o el saludo)
+            datos = await response.text();
+            resultadoElemento.textContent = datos;
+        }
+
+        // Cambiar color según si hubo éxito o error
+        if (response.ok) {
+            resultadoElemento.className = "mb-0 text-success"; // Verde si ok
+        } else {
+            resultadoElemento.className = "mb-0 text-danger"; // Rojo si error (404)
+        }
+
+    } catch (error) {
+        console.error("Error en el tester:", error);
+        resultadoElemento.textContent = "Error de conexión con el servidor.";
+        resultadoElemento.className = "mb-0 text-danger";
+    }
+};

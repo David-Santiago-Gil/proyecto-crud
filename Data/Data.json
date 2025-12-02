@@ -28,7 +28,7 @@
     "gift": "Amazon Gift Card",
     "tipo": "Compra",
     "tiempo": "Sin expiración",
-    "precio": 500,
+    "precio": 5000,
     "imagen": "https://via.placeholder.com/150"
   },
   {
@@ -62,5 +62,29 @@
     "tiempo": "3 meses",
     "precio": 455.66,
     "imagen": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQA+QMBEQACEQEDEQH/xAAbAAABBQEBAAAAAAAAAAAAAAACAQMEBQYAB//EAEoQAAIBAwEDBwcIBQsEAwAAAAECAwAEEQUSITEGEyJBUWFxFBUyQoGRoQdScoKSscHRFiMzYuEkNENTc4OTstLw8RclY6JEZHT/xAAaAQEAAwEBAQAAAAAAAAAAAAAAAQIDBAUG/8QANBEAAgEDAwIEBAMIAwAAAAAAAAECAwQREiExQVEFEzKRFCJhcUJSoRUjU4HB0eHwBkOx/9oADAMBAAIRAxEAPwCaorIuOKtAOKKAcAqSAsUAuKkBAUAuKAUUAuKAIYoAgBxoBcZqCTtmoAhSgOKChIOxQCFKADZqAJsUAmzQAlaATZoBMUAJWgAIoAGFAMSJQEaRKAjBOkaAMLQC7NATEvbM8LqH7YqSB9Lq1PC5g/xBU4A8k0LejLGfBxQDyFTwZT4GhAaqTwGfCpARUjiCPGgFAoBcUBwFAGooDJvysvkuZI/NsLokjKGFzgnBIzjG6oA8nKy44vpLfVmU0yB0crz62kXfsZT+NAGvK+D1tLvh7F/OhIQ5Y2PrWd6v9zmoAf6YaR6y3idxt2oAhyu0Q7jLOv0oGH4VIOPKrQzxvQv0kI/CgB/SfQicec7ceJqBks4ZY7iFJoGDxuMqw6xQkUioAmKAEigOxQAkUABFAARQDTigGHUUBF2ek3jQC7NAJs0BRGyDHgKsDjYk7gM0ADWDDqOOyhORRagDgc0IyK0TBOiSPbQZL/kdteT3AZmJ5wcT3UIZowKEH"
+  },
+  {
+    "id": 11,
+    "gift": "Toyota",
+    "tipo": "Suscripción",
+    "tiempo": "3 meses",
+    "precio": 433,
+    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCFOjfTtZfjklItV5nvJJdZYhujcniPF6N2JJAgtR5R4er3YFIfwWjtSslARY4CppOaLrQbbd0DybJBUk6P5HU1uZWJMOZ5dOS4HA9Q2A3&s=10"
+  },
+  {
+    "id": 12,
+    "gift": "Toyota",
+    "tipo": "Suscripción",
+    "tiempo": "3 meses",
+    "precio": 3455,
+    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCFOjfTtZfjklItV5nvJJdZYhujcniPF6N2JJAgtR5R4er3YFIfwWjtSslARY4CppOaLrQbbd0DybJBUk6P5HU1uZWJMOZ5dOS4HA9Q2A3&s=10"
+  },
+  {
+    "id": 13,
+    "gift": "Toyota",
+    "tipo": "Compra",
+    "tiempo": "3 meses",
+    "precio": 3334,
+    "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCFOjfTtZfjklItV5nvJJdZYhujcniPF6N2JJAgtR5R4er3YFIfwWjtSslARY4CppOaLrQbbd0DybJBUk6P5HU1uZWJMOZ5dOS4HA9Q2A3&s=10"
   }
 ]
